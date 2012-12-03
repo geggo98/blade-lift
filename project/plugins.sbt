@@ -8,8 +8,8 @@ case "0.11.3" => "com.github.siasia" %% "xsbt-web-plugin" % "0.11.3-0.2.11.1"
 case x if (x.startsWith("0.12")) => "com.github.siasia" %% "xsbt-web-plugin" % "0.12.0-0.2.11.1"
 })
 
-//Uncoment this line to enable the sbt idea plugin
+//Create project files for IntelliJ IDEA with "sbt gen-idea"
 addSbtPlugin("com.github.mpeltonen" % "sbt-idea" % "1.1.0")
 
-//Uncoment this line to enable the sbt eclipse plugin
+//Create Eclipse project file with "sbt eclipse"
 addSbtPlugin("com.typesafe.sbteclipse" % "sbteclipse-plugin" % "2.1.0")
