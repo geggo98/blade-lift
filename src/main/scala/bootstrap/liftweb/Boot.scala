@@ -1,35 +1,60 @@
 package bootstrap.liftweb
 
 import net.liftweb._
-import util._
-import Helpers._
+import db.{DefaultConnectionIdentifier, ConnectionIdentifier, ConnectionManager}
 
 import common._
 import http._
+import mapper.{Schemifier, DB}
 import sitemap._
 import Loc._
 import net.liftmodules.JQueryModule
 import net.liftweb.http.js.jquery._
+import java.sql.Connection
+import org.h2.jdbcx.JdbcConnectionPool
+import util.Props
+import widgets.logchanger.{LogbackLoggingBackend, Log4jLoggingBackend, LogLevelChanger}
+import de.schwetschke.bna2.model.{Event, UserAdministration, User}
 
 
 /**
  * A class that's instantiated early and run.  It allows the application
  * to modify lift's environment
  */
+object logLevel extends LogLevelChanger with LogbackLoggingBackend {
+  override def menuLocParams : List[Loc.AnyLocParam] =
+    List(If(() => User.currentUser.dmap(false)(_ isAdmin),"Must be logged in as admin"))
+}
+
 class Boot {
   def boot {
+    val isLoggedIn = If(() => User.currentUser.isDefined, "Not logged in")
+    val isAdmin = If(() => User.currentUser.dmap(false)(_ isAdmin), "Must be logged in as admin")
+
+    // add the log level changer widget
+    LogLevelChanger.init
     // where to search snippet
     LiftRules.addToPackages("de.schwetschke.bna2")
 
+    // Configure database connection
+    if (!DB.jndiJdbcConnAvailable_?) {
+      DB.defineConnectionManager(DefaultConnectionIdentifier, Database)
+    }
+    // Init database
+    Schemifier.schemify(true, Schemifier.infoF _, User, Event)
+    // Create initial values
+    User.create.
+      firstName("Admin").lastName("istrator").email("admin@istrator.invalid").
+      validated(true).superUser(true).password("ChruxTutt6").
+      save()
+
+
     // Build SiteMap
-    val entries = List(
-      Menu.i("Home") / "index", // the simple way to declare a menu
-
-      // more complex because this menu allows anything in the
-      // /static path to be visible
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"),
-        "Static Content")))
-
+    val entries = List[Menu](
+      Menu.i("Home") / "index",
+      logLevel.menu,
+      Menu(Loc("Static", Link(List("static"), true, "/static/index"),"Static Content"))
+    )  ::: User.menus ::: UserAdministration.menus ::: Event.menus
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
     LiftRules.setSiteMap(SiteMap(entries:_*))
@@ -55,4 +80,8 @@ class Boot {
     JQueryModule.init()
 
   }
+}
+
+object Boot extends Boot{
+
 }

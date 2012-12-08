@@ -28,6 +28,9 @@ libraryDependencies ++= {
   Seq(
     "net.liftweb"       %% "lift-webkit"        % liftVersion        % "compile",
     "net.liftmodules"   %% "lift-jquery-module" % (liftVersion + "-1.0-SNAPSHOT"),
+    "net.liftweb"       %% "lift-widgets"       % liftVersion,
+    "net.liftweb"       %% "lift-mapper"        % liftVersion        % "compile->default",
+    "com.h2database"    %  "h2"                 % "1.3.170",
     "org.eclipse.jetty" % "jetty-webapp"        % "7.5.4.v20111024"  % "container; test; compile",
     "ch.qos.logback"    % "logback-classic"     % "1.0.6",
     "org.specs2"        %% "specs2"             % "1.11"             % "test"

@@ -1,6 +1,8 @@
 import _root_.org.eclipse.jetty.server.handler.ContextHandlerCollection
 import _root_.org.eclipse.jetty.webapp.WebAppContext
 import _root_.org.eclipse.jetty.server.Server
+import bootstrap.liftweb.Database
+import de.schwetschke.bna2.model.User
 
 /**
  *  
@@ -22,7 +24,8 @@ object StartServer extends App {
     case handler : ContextHandlerCollection => handler.addHandler(context)
   }
   server.start()
-  Console println "Started Jetty on localhost:%s\nPress ENTER to exit".format(GUI_PORT)
+  Seq("Started Jetty on localhost:%s" format(GUI_PORT), "Press ENTER to exit").foreach (Console.println _)
   Console.readLine()
   server.stop()
+  Database.closeAll()
 }
