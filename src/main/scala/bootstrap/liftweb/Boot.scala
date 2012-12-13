@@ -24,6 +24,8 @@ import de.schwetschke.bna2.model.{Event, UserAdministration, User}
 object logLevel extends LogLevelChanger with LogbackLoggingBackend {
   override def menuLocParams : List[Loc.AnyLocParam] =
     List(If(() => User.currentUser.dmap(false)(_ isAdmin),"Must be logged in as admin"))
+
+  override def path = List("admin", "loglevel")
 }
 
 class Boot {
@@ -50,11 +52,22 @@ class Boot {
 
 
     // Build SiteMap
+    // Menu.i("Home") / "admin" / "index" means admin/index.html with link name "Home"
     val entries = List[Menu](
-      Menu.i("Home") / "index",
+      Menu.i("Home")        / "index",
       logLevel.menu,
-      Menu(Loc("Static", Link(List("static"), true, "/static/index"),"Static Content"))
-    )  ::: User.menus ::: UserAdministration.menus ::: Event.menus
+      Menu.i("adminloc")       / "admin" / "index" >> isAdmin submenus (
+          Menu.i("useradmin")  / "useradmin" submenus (
+          UserAdministration.menus: _*
+          ),
+        Menu.i("serveradmin")  / "serveradmin"
+        ),
+      Menu.i("tracks")      / "tracks" / "index" >> isAdmin,
+      Menu.i("eventadmin")  / "tracks" / "events" >> isAdmin submenus (
+          Event.menus: _*
+        )
+      //Menu(Loc("Static", Link(List("static"), true, "/static/index"),"Static Content"))
+    )  ::: User.menus
     // set the sitemap.  Note if you don't want access control for
     // each page, just comment this line out.
     LiftRules.setSiteMap(SiteMap(entries:_*))

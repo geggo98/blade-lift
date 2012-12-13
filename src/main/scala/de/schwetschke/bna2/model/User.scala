@@ -1,6 +1,7 @@
 package de.schwetschke.bna2.model
 
 import net.liftweb.mapper._
+import net.liftweb.sitemap.Loc.LocGroup
 
 /**
  * Entity class for users
@@ -17,6 +18,27 @@ object User extends User with MetaMegaProtoUser[User] {
   override def dbTableName = "users"
 
   def currentUserIsAdmin : Boolean = currentUser.dmap(false)(_ isAdmin)
+
+
+  val profileLocParams = LocGroup("userProfile") :: Nil
+  val loginLocParams = LocGroup("userLogin") :: Nil
+
+  override protected def loginMenuLocParams = loginLocParams ::: super.loginMenuLocParams
+
+  override protected def logoutMenuLocParams = loginLocParams ::: super.logoutMenuLocParams
+
+  override protected def lostPasswordMenuLocParams = loginLocParams ::: super.lostPasswordMenuLocParams
+
+  override protected def createUserMenuLocParams = loginLocParams ::: super.createUserMenuLocParams
+
+
+  override protected def resetPasswordMenuLocParams = profileLocParams ::: super.resetPasswordMenuLocParams
+
+  override protected def editUserMenuLocParams = profileLocParams ::: super.editUserMenuLocParams
+
+  override protected def changePasswordMenuLocParams = profileLocParams ::: super.changePasswordMenuLocParams
+
+  override protected def validateUserMenuLocParams = profileLocParams ::: super.validateUserMenuLocParams
 }
 
 /**
@@ -24,4 +46,8 @@ object User extends User with MetaMegaProtoUser[User] {
  */
 object UserAdministration extends User with KeyedMetaMapper[Long, User] with ProtoUser[User] with CRUDify[Long, User] {
   override def dbTableName = User.dbTableName
+
+  val menuLocParams = LocGroup("userAdministration") :: Nil
+
+  override protected def addlMenuLocParams = menuLocParams ::: super.addlMenuLocParams
 }
