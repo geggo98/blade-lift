@@ -33,6 +33,7 @@ libraryDependencies ++= {
     "com.h2database"    %  "h2"                 % "1.3.170",
     "org.eclipse.jetty" % "jetty-webapp"        % "7.5.4.v20111024"  % "container; test; compile",
     "ch.qos.logback"    % "logback-classic"     % "1.0.6",
-    "org.specs2"        %% "specs2"             % "1.11"             % "test"
+    "org.specs2"        %% "specs2"             % "1.11"             % "test",
+    "org.seleniumhq.selenium" % "selenium-java" % "2.23.1" % "test->default"
   )
 }

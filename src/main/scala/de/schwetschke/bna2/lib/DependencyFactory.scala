@@ -4,8 +4,6 @@ package lib
 import net.liftweb._
 import http._
 import util._
-import common._
-import java.util.Date
 
 /**
  * A factory for generating new instances of Date.  You can create
@@ -35,19 +33,19 @@ object DependencyFactory extends Factory {
  */
 sealed abstract class Changer {
   def changeDefaultImplementation() {
-    DependencyFactory.time.default.set(() => new Date())
+    TestDependencyFactory.time.default.set(() => new Date())
   }
 
   def changeSessionImplementation() {
-    DependencyFactory.time.session.set(() => new Date())
+    TestDependencyFactory.time.session.set(() => new Date())
   }
 
   def changeRequestImplementation() {
-    DependencyFactory.time.request.set(() => new Date())
+    TestDependencyFactory.time.request.set(() => new Date())
   }
 
   def changeJustForCall(d: Date) {
-    DependencyFactory.time.doWith(d) {
+    TestDependencyFactory.time.doWith(d) {
       // perform some calculations here
     }
   }

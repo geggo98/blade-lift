@@ -2,19 +2,13 @@ package bootstrap.liftweb
 
 import de.schwetschke.bna2.model.{UserAdministration, Event, User}
 import net.liftweb.mapper.{DB, Schemifier, BaseMetaMapper}
-import net.liftweb.sitemap.Loc.If
 import net.liftweb.sitemap.{Loc, SiteMap, Menu}
-import net.liftweb.http.{PlainTextResponse, Html5Properties, Req, LiftRules}
+import net.liftweb.http.{Html5Properties, Req, LiftRules}
 import net.liftweb.common.{Logger, Full}
 import net.liftweb.http.js.jquery.JQueryArtifacts
 import net.liftmodules.JQueryModule
 import net.liftweb.widgets.logchanger.LogLevelChanger
 import net.liftweb.db.{ConnectionManager, DefaultConnectionIdentifier}
-import org.eclipse.jetty.server.Server
-import org.eclipse.jetty.server.handler.ContextHandlerCollection
-import org.eclipse.jetty.webapp.WebAppContext
-import java.net.ServerSocket
-import java.io.IOException
 import net.liftweb.util.SimpleInjector
 import Loc._
 
@@ -138,5 +132,5 @@ class TestConfiguration extends BaseConfiguration with
   H2TransientDatabase with StartServerWithRandomPort with GenerateUsers with GenerateTestUsers
 
 object ServerManager extends SimpleInjector {
-  val configuration = new Inject(DevelopmentConfiguration) {}
+  val configuration = new Inject[ServerManager](DevelopmentConfiguration) {}
 }

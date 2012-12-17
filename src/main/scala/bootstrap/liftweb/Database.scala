@@ -1,6 +1,6 @@
 package bootstrap.liftweb
 
-import net.liftweb.db.{ConnectionIdentifier, ConnectionManager}
+import net.liftweb.db.ConnectionIdentifier
 import org.h2.jdbcx.JdbcConnectionPool
 import net.liftweb.common.{Logger, Full, Box}
 import java.sql.Connection

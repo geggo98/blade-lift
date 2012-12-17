@@ -1,8 +1,4 @@
-import _root_.org.eclipse.jetty.server.handler.ContextHandlerCollection
-import _root_.org.eclipse.jetty.webapp.WebAppContext
-import _root_.org.eclipse.jetty.server.Server
-import bootstrap.liftweb.{ServerManager, Database}
-import de.schwetschke.bna2.model.User
+import bootstrap.liftweb.ServerManager
 
 /**
  *  

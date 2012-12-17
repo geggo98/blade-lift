@@ -24,6 +24,10 @@ abstract trait JettyServer {
     case Some(port) => "http://localhost:%s/".format(port)
   }
 
+  def port : Int = _port match {
+    case Some(port) => port
+  }
+
   def startServer(port : Int) {
     _port=Some(port)
     val server  = new Server(port)
