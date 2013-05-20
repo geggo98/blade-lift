@@ -7,7 +7,7 @@ import net.liftweb.http.{Html5Properties, Req, LiftRules}
 import net.liftweb.common.{Logger, Full}
 import net.liftweb.http.js.jquery.JQueryArtifacts
 import net.liftmodules.JQueryModule
-import net.liftweb.widgets.logchanger.LogLevelChanger
+import net.liftweb.widgets.logchanger.{LogbackLoggingBackend, LogLevelChanger}
 import net.liftweb.db.{ConnectionManager, DefaultConnectionIdentifier}
 import net.liftweb.util.SimpleInjector
 import Loc._
@@ -20,6 +20,14 @@ import Loc._
  * Time: 17:07
  *
  */
+
+object logLevel extends LogLevelChanger with LogbackLoggingBackend {
+  override def menuLocParams : List[Loc.AnyLocParam] =
+    List(If(() => User.currentUser.dmap(false)(_ isAdmin),"Must be logged in as admin"))
+
+  override def path = List("admin", "loglevel")
+}
+
 abstract class ServerManager extends Logger {
   val warPath = "src/main/webapp"
   val generatePasswordLength=15
@@ -71,7 +79,7 @@ abstract class ServerManager extends Logger {
         )
       //Menu(Loc("Static", Link(List("static"), true, "/static/index"),"Static Content"))
     )  ::: User.menus
-    // set the sitemap.  Note if you don't want access control for
+    // set the site map.  Note if you don't want access control for
     // each page, just comment this line out.
     LiftRules.setSiteMap(SiteMap(entries:_*))
 
@@ -79,7 +87,7 @@ abstract class ServerManager extends Logger {
 
   def configureLift()  {
     // add the log level changer widget
-    LogLevelChanger.init
+    LogLevelChanger.init()
     // where to search snippet
     LiftRules.addToPackages("de.schwetschke.bna2")
 
@@ -100,7 +108,7 @@ abstract class ServerManager extends Logger {
 
     //Init the jQuery module, see http://liftweb.net/jquery for more information.
     LiftRules.jsArtifacts = JQueryArtifacts
-    JQueryModule.InitParam.JQuery=JQueryModule.JQuery172
+    JQueryModule.InitParam.JQuery=JQueryModule.JQuery182
     JQueryModule.init()
   }
 

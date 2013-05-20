@@ -13,7 +13,7 @@ import org.openqa.selenium.WebDriver
  *
  */
 object TestDependencyFactory extends Factory {
-  implicit object webDriver extends FactoryMaker[WebDriver](() => newHtmlUnitWebDriver(false))
+  implicit object webDriver extends FactoryMaker[WebDriver](() => newHtmlUnitWebDriver(enableJs = false))
 
   private def init() {
     List(webDriver)

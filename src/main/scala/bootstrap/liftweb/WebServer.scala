@@ -14,7 +14,7 @@ import java.io.IOException
  * Time: 18:52
  *
  */
-abstract trait JettyServer {
+trait JettyServer {
   this : ServerManager =>
 
   private var _port : Option[Int]= None
@@ -22,10 +22,12 @@ abstract trait JettyServer {
 
   def serverUrl = _port match {
     case Some(port) => "http://localhost:%s/".format(port)
+    case None => throw new IllegalStateException("Server not started")
   }
 
   def port : Int = _port match {
     case Some(port) => port
+    case None => throw new IllegalStateException("Server not started")
   }
 
   def startServer(port : Int) {
@@ -55,12 +57,12 @@ abstract trait JettyServer {
 
 trait StartServerWithProductionPort  {
   this : ServerManager =>
-  def startServer() : Unit = startServer(80)
+  def startServer() {startServer(80)}
 }
 
 trait StartServerWithDeveloperPort  {
   this : ServerManager =>
-  def startServer() : Unit = startServer(8081)
+  def startServer() {startServer(8081)}
 }
 
 trait StartServerWithRandomPort  {

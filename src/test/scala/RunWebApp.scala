@@ -1,6 +1,6 @@
 import org.eclipse.jetty.server.handler.ContextHandler
 import org.eclipse.jetty.server.nio.SelectChannelConnector
-import org.eclipse.jetty.server.{Handler, Server}
+import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.webapp.WebAppContext
 
 object RunWebApp extends App {
@@ -13,7 +13,7 @@ object RunWebApp extends App {
   context.setServer(server)
   context.setWar("src/main/webapp")
 
-  val context0: ContextHandler = new ContextHandler();
+  val context0: ContextHandler = new ContextHandler()
   context0.setHandler(context)
   server.setHandler(context0)
 

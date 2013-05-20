@@ -27,7 +27,7 @@ libraryDependencies ++= {
   val liftVersion = "2.5-SNAPSHOT"
   Seq(
     "net.liftweb"       %% "lift-webkit"        % liftVersion        % "compile",
-    "net.liftmodules"   %% "lift-jquery-module" % (liftVersion + "-1.0-SNAPSHOT"),
+    "net.liftmodules"   %% "lift-jquery-module" % (liftVersion + "-2.0-SNAPSHOT"),
     "net.liftweb"       %% "lift-widgets"       % liftVersion,
     "net.liftweb"       %% "lift-mapper"        % liftVersion        % "compile->default",
     "com.h2database"    %  "h2"                 % "1.3.170",

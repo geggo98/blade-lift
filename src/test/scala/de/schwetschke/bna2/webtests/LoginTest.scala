@@ -5,8 +5,7 @@ import org.specs2.specification.AroundExample
 import org.specs2.execute.Result
 import bootstrap.liftweb.{ServerManager, TestConfiguration}
 import net.liftweb.common.Logger
-import org.openqa.selenium.{WebElement, By, WebDriver}
-import org.openqa.selenium.htmlunit.HtmlUnitDriver
+import org.openqa.selenium.By
 
 /**
  *  
@@ -18,8 +17,8 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver
  */
 class LoginTest extends Specification with AroundExample with Logger {
 
+  val serverManager = new TestConfiguration
   protected def around[T <% Result](body: => T) = {
-    val serverManager = new TestConfiguration
     ServerManager.configuration.doWith(serverManager) {
       try{
         serverManager.startServer()
@@ -33,7 +32,7 @@ class LoginTest extends Specification with AroundExample with Logger {
 
   "Login dialog" should {
     "Accept user with correct password" in {
-      val serverUrl=ServerManager.configuration.vend.serverUrl
+      val serverUrl=serverManager.serverUrl
 
       val selenium=TestDependencyFactory.webDriver.vend
       selenium.get(trace("Open URL",serverUrl))

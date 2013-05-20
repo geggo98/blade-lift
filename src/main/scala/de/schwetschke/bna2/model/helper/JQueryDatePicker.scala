@@ -55,9 +55,8 @@ trait JQueryDatePicker [T <: Mapper[T]] {
         <xml:group>
           <head>
             <meta charset="utf-8" />
-            <link rel="stylesheet" href="http://code.jquery.com/ui/1.7.2/themes/base/jquery-ui.css" />
-            <script src="http://code.jquery.com/ui/1.7.2/jquery-ui.js"></script>
-            <link rel="stylesheet" href="/resources/demos/style.css" />
+            <link rel="stylesheet" href="/static/stylesheets/jquery-ui-1_10_0.css" />
+            <script src="/static/javascripts/jquery-ui-1_10_0.js"></script>
             <script>
               {onLoad(fieldId.map("#"+_).getOrElse("""[name="%s"]""".format(funcName)))}
             </script>
